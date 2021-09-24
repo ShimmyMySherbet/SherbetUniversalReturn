@@ -1,9 +1,9 @@
-﻿using System.Reflection;
-using HarmonyLib;
+﻿using HarmonyLib;
 using Rocket.API;
 using Rocket.Core.Plugins;
 using SDG.Unturned;
 using SherbetUniversalReturn.Models;
+using System.Reflection;
 using UnityEngine;
 
 namespace SherbetUniversalReturn
@@ -38,6 +38,20 @@ namespace SherbetUniversalReturn
         {
             base.UnloadPlugin(state);
             HarmonyInstance.UnpatchAll("UniversalReturn");
+        }
+    }
+
+    public static class Extensions
+    {
+        public static T getOrAddComponent<T>(this GameObject go) where T : Component
+        {
+            var instance = go.GetComponent<T>();
+            if (instance != null)
+            {
+                return instance;
+            }
+            instance = go.AddComponent<T>();
+            return instance;
         }
     }
 }
